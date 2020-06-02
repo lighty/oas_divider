@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+
+require 'oas_divider'
+
+open_api_object = YAML.load_file 'swagger_original.yml'
+
+open_api_object.keys.each do |open_api_object_field|
+  if open_api_object_field === "paths" 
+    FileUtils.mkdir_p('paths')
+    paths_objects = open_api_object[open_api_object_field]
+    paths_objects.keys.each do |path|
+      path_object = OasDivider::PathsObject.new(path, paths_objects[path]) # 一つのpathオブジェクト。postなどがキー
+      path_object.to_file
+      open_api_object[open_api_object_field][path] = { "$ref" => path_object.ref }
+    end
+  end
+
+  if open_api_object_field === "components" 
+    FileUtils.mkdir_p('components')
+    components_objects = open_api_object[open_api_object_field]
+    components_objects.keys.each do |components_object_field|
+      if components_object_field === 'schemas'
+        FileUtils.mkdir_p('components/schemas')
+        schmas = components_objects[components_object_field]
+        schmas.keys.each do |schema_name|
+          schema_object = OasDivider::SchemaObject.new(schema_name, schmas[schema_name])
+          schema_object.to_file
+          open_api_object[open_api_object_field][components_object_field][schema_name] = { "$ref" => schema_object.ref }
+        end
+      else
+        field_object = OasDivider::ComponentsObjectFieldObject.new(components_object_field, components_objects[components_object_field])
+        field_object.to_file
+        open_api_object[open_api_object_field][components_object_field] = { "$ref" => field_object.ref }
+      end
+    end
+  end
+end
+
+YAML.dump(open_api_object, File.open( 'swagger_root.yml', 'w'))
