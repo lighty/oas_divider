@@ -1,4 +1,4 @@
-require "oas_divider/version"
+require 'oas_divider/version'
 require 'yaml'
 require 'fileutils'
 

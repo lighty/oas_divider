@@ -4,24 +4,14 @@ Divides the OpenAPI format schema definition file described in one file into mul
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'oas_divider'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
+install it yourself as:
 
     $ gem install oas_divider
 
 ## Usage
 
 ```shell
-bundle exec exe/oas_divider
+oas_divider your_file_to_divide.yml
 ```
 
 ## Development

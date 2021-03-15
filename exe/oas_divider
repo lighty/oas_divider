@@ -2,4 +2,9 @@
 
 require 'oas_divider'
 
-OasDivider::Cli.new('swagger_original.yml').divide
+filename = ARGV[0]
+if filename.nil?
+  puts 'Please specify filename. ex) oas_divider swagger.yml'
+  return
+end
+OasDivider::Cli.new(filename).divide
