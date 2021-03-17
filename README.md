@@ -14,6 +14,33 @@ install it yourself as:
 oas_divider your_file_to_divide.yml
 ```
 
+## Behavior
+Reads the specified swagger file, cuts out the code in the following units, and saves it to a file.
+Embed a ReferenceObject containing a reference to the file in place of the cut out part.
+
+- PathItemObject under PathsObject
+- value of the responses field under ComponentsObject
+- value of the parameters field under the ComponentsObject
+- value of the requestBodies field under the ComponentsObject
+- SchemaObject, the value of the map in the schema field under ComponentsObject
+
+Other objects will be output as is.
+The file will be output to the current directory.
+
+---
+
+指定されたswaggerファイルを読み込み、以下の単位でコードを切り出してそれをファイルに保存します。
+切り出した部分の代わりにそのファイルへのreferenceを含むReferenceObjectを埋め込みます。
+
+- PathsObject配下のPathItemObject
+- ComponentsObject配下のresponsesフィールドのvalue
+- ComponentsObject配下のparametersフィールドのvalue
+- ComponentsObject配下のrequestBodiesフィールドのvalue
+- ComponentsObject配下のschemaフィールドのMapのvalueであるSchemaObject
+
+その他のオブジェクトはそのまま出力します。
+ファイルはカレントディレクトリに出力されます。
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
